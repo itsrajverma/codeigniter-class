@@ -1,13 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Home extends CI_Controller {
+class Home extends MY_Controller {
+
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('Home_model','home');
+	}
 
 	public function index()
 	{
-		$this->load->view('includes/header');
-		$this->load->view('home');
-		$this->load->view('includes/footer');
+		$this->loadViews('home');
 	}
 
 	public function contactUs()
@@ -16,5 +21,12 @@ class Home extends CI_Controller {
 		$this->load->view('contact');
 		$this->load->view('includes/footer');
 	}
+
+	public function records()
+	{
+		$data["records"] = $this->home->get_records();
+		$this->loadViews('records',$data);
+	}
+
 
 }
