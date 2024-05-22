@@ -3,13 +3,17 @@
 		<div class="col-md-12">
 			<a class="btn btn-primary" href="<?= base_url('student/create') ?>">Add New Student</a>
 		</div>
-		<div class="col-md-12">
+		<?php
+		$this->load->view('includes/error');
+		?>
+			<div class="col-md-12">
 			<table class="table table-responsive">
 				<thead>
 				<th>Name</th>
 				<th>Email</th>
 				<th>Phone</th>
 				<th>Class</th>
+				<th>Action</th>
 				</thead>
 				<tbody>
 				<?php
@@ -21,6 +25,9 @@
 							<td><?= $record->email; ?></td>
 							<td><?= $record->phone; ?></td>
 							<td><?= $record->class; ?></td>
+							<td>
+								<a href="<?= base_url('student/deleteStudent/').$record->id ?>" onclick="return confirm('Do you really want to delete this?')" class="btn btn-danger btn-sm">Delete</a>
+							</td>
 						</tr>
 						<?php
 					}

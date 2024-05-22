@@ -37,9 +37,25 @@ class Student extends MY_Controller {
 
 		$insert = $this->student->insert_student($student);
 		if ($insert){
+//			$this->session->set_flashdata('success', 'Student Added Successfully');
+			success("Student Added Successfully");
 			redirect('student');
 		}else{
+//			$this->session->set_flashdata('error', 'Error while adding your record..');
+			error("Error while adding your record..");
 			echo "failed";
+		}
+	}
+
+
+	public function deleteStudent($id){
+		$result = $this->student->delete_student($id);
+		if ($result){
+			$this->session->set_flashdata('success', 'Deleted Successfully');
+			redirect('student');
+		}else{
+			$this->session->set_flashdata('error', 'Error while deleting your record..');
+			redirect('student');
 		}
 	}
 
