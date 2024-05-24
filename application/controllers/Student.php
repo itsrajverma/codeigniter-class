@@ -21,29 +21,31 @@ class Student extends MY_Controller {
 	}
 
 	public function insertStudent(){
-		$pData = $this->input->post();
-		if (empty($pData)){
-			redirect('student/create');
-		}
+		$this->form_validation->set_rules('name', 'Name', 'required|xss_clean|alpha_numeric_spaces');
+		$this->form_validation->set_rules('email', 'Email', 'required|xss_clean|valid_email');
+		$this->form_validation->set_rules('mobile', 'Mobile', 'required|xss_clean|exact_length[10]|numeric');
+		$this->form_validation->set_rules('class', 'Class', 'required|xss_clean');
+		$this->form_validation->set_rules('address', 'Address', 'required|xss_clean');
+		if ($this->form_validation->run() == FALSE) {
+			$this->loadViews('students/create');
+		} else {
+			$pData = $this->input->post();
+			$pData = $this->security->xss_clean($pData);
+			$student["name"] = $pData["name"];
+			$student["email"] = $pData["email"];
+			$student["phone"] = $pData["mobile"];
+			$student["class"] = $pData["class"];
+			$student["address"] = $pData["address"];
+			$student["addon"] = date('Y-m-d H:i:s');
+			$insert = $this->student->insert_student($student);
+			if ($insert){
+				success("Student added..");
+				redirect('student');
+			}else{
+				error("Error");
+				redirect("student/create");
+			}
 
-		$student["name"] = $this->input->post('name');
-		$student["email"] = $this->input->post('email');
-		$student["phone"] = $this->input->post('mobile');
-		$student["class"] = $this->input->post('class');
-		$student["address"] = $this->input->post('address');
-		$student["addon"] = date('Y-m-d H:i:s');
-
-//		$student["name"] = $pData["name"];
-
-		$insert = $this->student->insert_student($student);
-		if ($insert){
-//			$this->session->set_flashdata('success', 'Student Added Successfully');
-			success("Student Added Successfully");
-			redirect('student');
-		}else{
-//			$this->session->set_flashdata('error', 'Error while adding your record..');
-			error("Error while adding your record..");
-			echo "failed";
 		}
 	}
 
