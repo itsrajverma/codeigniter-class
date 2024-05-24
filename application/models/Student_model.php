@@ -14,8 +14,24 @@ class Student_model extends CI_Model {
 			return false;
 	}
 
+	public function student_detail($student_id){
+		$this->db->where('id',$student_id);
+		$this->db->select("*");
+		$this->db->from("students");
+		$res = $this->db->get()->result();
+		if ($res)
+			return $res[0];
+		else
+			return false;
+	}
+
 	public function insert_student($data){
 		return $this->db->insert('students',$data);
+	}
+
+	public function update_student($data,$student_id){
+		$this->db->where('id',$student_id);
+		return $this->db->update('students',$data);
 	}
 
 	public function delete_student($student_id){

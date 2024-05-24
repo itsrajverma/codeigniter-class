@@ -13,6 +13,7 @@
 				<th>Email</th>
 				<th>Phone</th>
 				<th>Class</th>
+				<th>Address</th>
 				<th>Action</th>
 				</thead>
 				<tbody>
@@ -25,8 +26,10 @@
 							<td><?= $record->email; ?></td>
 							<td><?= $record->phone; ?></td>
 							<td><?= $record->class; ?></td>
+							<td><?= $record->address; ?></td>
 							<td>
 								<a href="<?= base_url('student/deleteStudent/').$record->id ?>" onclick="return confirm('Do you really want to delete this?')" class="btn btn-danger btn-sm">Delete</a>
+								<a href="<?= base_url('student/edit/').$record->id ?>" class="btn btn-warning btn-sm">Update</a>
 							</td>
 						</tr>
 						<?php

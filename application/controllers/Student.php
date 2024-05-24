@@ -61,4 +61,50 @@ class Student extends MY_Controller {
 		}
 	}
 
+
+	public function edit($id){
+		if (empty($id)){
+			redirect('student');
+		}
+		$record = $this->student->student_detail($id);
+		if (empty($record)){
+			redirect('student');
+		}
+		$data["values"] = $record;
+		$this->loadViews('students/update',$data);
+	}
+
+	public function updateStudent($student_id){
+		$this->form_validation->set_rules('name', 'Name', 'required|xss_clean|alpha_numeric_spaces');
+		$this->form_validation->set_rules('email', 'Email', 'required|xss_clean|valid_email');
+		$this->form_validation->set_rules('mobile', 'Mobile', 'required|xss_clean|exact_length[10]|numeric');
+		$this->form_validation->set_rules('class', 'Class', 'required|xss_clean');
+		$this->form_validation->set_rules('address', 'Address', 'required|xss_clean');
+		if ($this->form_validation->run() == FALSE) {
+			$record = $this->student->student_detail($student_id);
+			if (empty($record)){
+				redirect('student');
+			}
+			$data["values"] = $record;
+			$this->loadViews('students/update',$data);
+		} else {
+			$pData = $this->input->post();
+			$pData = $this->security->xss_clean($pData);
+			$student["name"] = $pData["name"];
+			$student["email"] = $pData["email"];
+			$student["phone"] = $pData["mobile"];
+			$student["class"] = $pData["class"];
+			$student["address"] = $pData["address"];
+			$student["addon"] = date('Y-m-d H:i:s');
+			$insert = $this->student->update_student($student,$student_id);
+			if ($insert){
+				success("Student updates..");
+				redirect('student');
+			}else{
+				error("Error");
+				redirect("student/edit/$student_id");
+			}
+		}
+	}
+
 }
