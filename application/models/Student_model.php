@@ -5,8 +5,9 @@ class Student_model extends CI_Model {
 
 
 	public function get_records(){
-		$this->db->select("*");
-		$this->db->from("students");
+		$this->db->select("s.*,c.course_name");
+		$this->db->from("students s");
+		$this->db->join("courses c","s.course_id=c.id");
 		$res = $this->db->get()->result();
 		if ($res)
 			return $res;

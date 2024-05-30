@@ -10,6 +10,7 @@
 			<table class="table table-responsive">
 				<thead>
 				<th>Name</th>
+				<th>Course</th>
 				<th>Image</th>
 				<th>Email</th>
 				<th>Phone</th>
@@ -24,6 +25,7 @@
 						?>
 						<tr>
 							<td><?= $record->name; ?></td>
+							<td><?= $record->course_name; ?></td>
 							<td><img src="<?= $record->profile_pic ?>" style="height: 100px;"></td>
 							<td><?= $record->email; ?></td>
 							<td><?= $record->phone; ?></td>
