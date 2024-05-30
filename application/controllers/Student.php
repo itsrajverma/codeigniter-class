@@ -31,6 +31,19 @@ class Student extends MY_Controller {
 		} else {
 			$pData = $this->input->post();
 			$pData = $this->security->xss_clean($pData);
+			if(!empty($_FILES["profile_pic"])){
+				$config['upload_path']          = './uploads/students/';
+				$config['allowed_types']        = 'gif|jpg|png|jpeg';
+				$config['max_size']             = 2048;
+				$this->load->library('upload', $config);
+				if ( ! $this->upload->do_upload('profile_pic')) {
+					error($this->upload->display_errors());
+					redirect_back();
+				} else {
+					$data = array('upload_data' => $this->upload->data());
+					$student["profile_pic"] = "uploads/students/".$data["upload_data"]["file_name"];
+				}
+			}
 			$student["name"] = $pData["name"];
 			$student["email"] = $pData["email"];
 			$student["phone"] = $pData["mobile"];

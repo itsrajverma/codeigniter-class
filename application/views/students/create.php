@@ -4,12 +4,16 @@
 			color: red;
 		}
 	</style>
+
 	<div class="row row-cols-1 row-cols-md-3 mb-3">
+		<?php
+		$this->load->view('includes/error');
+		?>
 		<div class="col-md-12">
 			<a class="btn btn-primary" href="<?= base_url('student') ?>">Go Back</a>
 		</div>
 		<div class="col-md-6 mt-5">
-				<?= form_open(base_url('student/insertStudent')) ?>
+				<?= form_open_multipart(base_url('student/insertStudent')) ?>
 				<div class="form-group">
 					<label>Name</label>
 					<input type="text" name="name" class="form-control" value="<?= set_value('name'); ?>" placeholder="Enter Student Name">
@@ -40,7 +44,13 @@
 					<?= form_error('address','<div class="red">','</div>') ?>
 				</div>
 
-				<div class="form-group mt-1">
+				<div class="form-group">
+					<label>Image</label>
+					<input type="file" name="profile_pic" class="form-control">
+				</div>
+
+
+			<div class="form-group mt-1">
 					<button type="submit" class="btn btn-info">Submit</button>
 				</div>
 			<?= form_close() ?>
