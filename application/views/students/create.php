@@ -13,7 +13,7 @@
 			<a class="btn btn-primary" href="<?= base_url('student') ?>">Go Back</a>
 		</div>
 		<div class="col-md-6 mt-5">
-				<?= form_open_multipart(base_url('student/insertStudent')) ?>
+				<?= form_open_multipart(base_url('student/create')) ?>
 				<div class="form-group">
 					<label>Name</label>
 					<input type="text" name="name" class="form-control" value="<?= set_value('name'); ?>" placeholder="Enter Student Name">

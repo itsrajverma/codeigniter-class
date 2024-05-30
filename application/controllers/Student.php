@@ -15,12 +15,7 @@ class Student extends MY_Controller {
 		$this->loadViews('students/list',$data);
 	}
 
-
 	public function create(){
-		$this->loadViews('students/create');
-	}
-
-	public function insertStudent(){
 		$this->form_validation->set_rules('name', 'Name', 'required|xss_clean|alpha_numeric_spaces');
 		$this->form_validation->set_rules('email', 'Email', 'required|xss_clean|valid_email');
 		$this->form_validation->set_rules('mobile', 'Mobile', 'required|xss_clean|exact_length[10]|numeric');
@@ -38,7 +33,7 @@ class Student extends MY_Controller {
 				$this->load->library('upload', $config);
 				if ( ! $this->upload->do_upload('profile_pic')) {
 					error($this->upload->display_errors());
-					redirect_back();
+					redirect('student/create');
 				} else {
 					$data = array('upload_data' => $this->upload->data());
 					$student["profile_pic"] = "uploads/students/".$data["upload_data"]["file_name"];
@@ -56,38 +51,12 @@ class Student extends MY_Controller {
 				redirect('student');
 			}else{
 				error("Error");
-				redirect("student/create");
+				redirect_back();
 			}
-
 		}
 	}
 
-
-	public function deleteStudent($id){
-		$result = $this->student->delete_student($id);
-		if ($result){
-			$this->session->set_flashdata('success', 'Deleted Successfully');
-			redirect('student');
-		}else{
-			$this->session->set_flashdata('error', 'Error while deleting your record..');
-			redirect('student');
-		}
-	}
-
-
-	public function edit($id){
-		if (empty($id)){
-			redirect('student');
-		}
-		$record = $this->student->student_detail($id);
-		if (empty($record)){
-			redirect('student');
-		}
-		$data["values"] = $record;
-		$this->loadViews('students/update',$data);
-	}
-
-	public function updateStudent($student_id){
+	public function edit($student_id = null){
 		$this->form_validation->set_rules('name', 'Name', 'required|xss_clean|alpha_numeric_spaces');
 		$this->form_validation->set_rules('email', 'Email', 'required|xss_clean|valid_email');
 		$this->form_validation->set_rules('mobile', 'Mobile', 'required|xss_clean|exact_length[10]|numeric');
@@ -115,9 +84,23 @@ class Student extends MY_Controller {
 				redirect('student');
 			}else{
 				error("Error");
-				redirect("student/edit/$student_id");
+				redirect_back();
 			}
 		}
+	}
+
+
+	public function deleteStudent($student_id){
+		if (empty($student_id)){
+			redirect_back();
+		}
+		$delete = $this->student->delete_student($student_id);
+		if ($delete){
+			success("Deleted Successfully...");
+		}else{
+			error("Error while deleting");
+		}
+		redirect_back();
 	}
 
 }
