@@ -9,4 +9,14 @@ class MY_Controller extends CI_Controller
 		$this->load->view($page, $data);
 		$this->load->view('includes/footer');
 	}
+
+	function isLoggedIn() {
+		$isLoggedIn = $this->session->userdata ('id');
+		if (!isset( $isLoggedIn )) {
+			redirect ( 'user/login' );
+		} else {
+			return true;
+		}
+	}
+
 }

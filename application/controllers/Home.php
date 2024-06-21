@@ -7,6 +7,7 @@ class Home extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->isLoggedIn();
 		$this->load->model('Home_model','home');
 	}
 
